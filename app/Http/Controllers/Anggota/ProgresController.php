@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Anggota;
 
 use App\Http\Controllers\Controller;
+use App\Models\Anggota;
 use App\Models\SkorTembakan;
 use App\Services\AnalisisService;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Gate;
 
 class ProgresController extends Controller
 {
@@ -42,6 +45,61 @@ class ProgresController extends Controller
             'totalSesiValid',
             'bulanIni'
         ));
+    }
+
+    public function exportPdf(Request $request, ?Anggota $anggota = null)
+    {
+        $targetAnggota = $anggota ?? auth()->user()->anggota;
+
+        Gate::authorize('downloadLaporan', $targetAnggota);
+
+        $bulanStr = $request->get('bulan', now()->format('Y-m'));
+        $bulanIni = Carbon::createFromFormat('Y-m', $bulanStr)->startOfMonth();
+
+        $analisis = $this->analisis->statusAnggota($targetAnggota->id, $bulanIni);
+
+        $riwayatSkor = SkorTembakan::where('anggota_id', $targetAnggota->id)
+            ->valid()
+            ->bulan($bulanIni)
+            ->orderBy('tanggal')
+            ->orderBy('sesi_ke')
+            ->get();
+
+        $totalVolumePanah = (int) $targetAnggota->qtyShoot()
+            ->bulan($bulanIni)
+            ->sum('jumlah_anak_panah');
+
+        $riwayatKehadiran = $targetAnggota->presensi()
+            ->with('jadwalLatihan')
+            ->whereHas('jadwalLatihan', function ($q) use ($bulanIni) {
+                $q->whereYear('tanggal', $bulanIni->year)
+                    ->whereMonth('tanggal', $bulanIni->month);
+            })
+            ->get();
+
+        $riwayatLomba = $targetAnggota->hasilLomba()
+            ->with('kejuaraan')
+            ->get();
+
+        $anggota = $targetAnggota;
+
+        $pdf = Pdf::loadView('admin.progres.pdf', compact(
+            'anggota',
+            'analisis',
+            'riwayatSkor',
+            'totalVolumePanah',
+            'riwayatKehadiran',
+            'riwayatLomba',
+            'bulanIni'
+        ))
+            ->setOptions(['isRemoteEnabled' => true])
+            ->setPaper('a4', 'portrait');
+
+        $namaBersih = preg_replace('/[^A-Za-z0-9_]/', '', str_replace(' ', '_', $targetAnggota->nama));
+        $namaBulan = $bulanIni->translatedFormat('F');
+        $tahun = $bulanIni->format('Y');
+
+        return $pdf->download("Laporan_{$namaBersih}_{$namaBulan}_{$tahun}.pdf");
     }
 
     public function ktaPdf()

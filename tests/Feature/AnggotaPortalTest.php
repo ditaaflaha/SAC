@@ -104,8 +104,10 @@ class AnggotaPortalTest extends TestCase
         $progres = $this->actingAs($this->anggotaUser)->get(route('anggota.progres'));
         $progres->assertStatus(200);
 
-        $leaderboard = $this->actingAs($this->anggotaUser)->get(route('anggota.leaderboard'));
-        $leaderboard->assertStatus(200);
+        foreach (['skor', 'rajin', 'hadir'] as $kategori) {
+            $leaderboard = $this->actingAs($this->anggotaUser)->get(route('anggota.leaderboard', ['kategori' => $kategori]));
+            $leaderboard->assertStatus(200);
+        }
     }
 
     public function test_anggota_can_download_kta_pdf(): void
@@ -131,5 +133,33 @@ class AnggotaPortalTest extends TestCase
         $delete = $this->actingAs($this->anggotaUser)->delete(route('anggota.target.destroy', $target));
         $delete->assertRedirect();
         $this->assertDatabaseMissing('target_latihan', ['id' => $target->id]);
+    }
+
+    public function test_anggota_can_download_own_progres_pdf_but_not_others(): void
+    {
+        // Anggota mengunduh laporan miliknya sendiri
+        $ownResponse = $this->actingAs($this->anggotaUser)->get(route('anggota.progres.pdf', [
+            'bulan' => now()->format('Y-m'),
+        ]));
+        $ownResponse->assertStatus(200);
+        $ownResponse->assertHeader('content-type', 'application/pdf');
+        $this->assertStringContainsString('Laporan_Siti_Pemanah_', (string) $ownResponse->headers->get('content-disposition'));
+
+        // Anggota lain
+        $anggotaLain = Anggota::create([
+            'nama' => 'Budi Pemanah Lain',
+            'no_wa' => '081200001111',
+            'jenis_kelamin' => 'L',
+            'jenis_keanggotaan' => 'reguler',
+            'status_keanggotaan' => 'aktif',
+            'tanggal_gabung' => now()->subMonths(2)->toDateString(),
+        ]);
+
+        // Anggota mencoba mengunduh laporan milik anggota lain lewat URL
+        $otherResponse = $this->actingAs($this->anggotaUser)->get(route('anggota.progres.pdf', $anggotaLain));
+        $otherResponse->assertStatus(403);
+
+        $adminRouteResponse = $this->actingAs($this->anggotaUser)->get(route('admin.progres.pdf', $anggotaLain));
+        $adminRouteResponse->assertStatus(403);
     }
 }

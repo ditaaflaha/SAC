@@ -193,9 +193,13 @@ class AdminPortalTest extends TestCase
 
     public function test_admin_can_export_progres_pdf(): void
     {
-        $response = $this->actingAs($this->admin)->get(route('admin.progres.pdf', $this->anggota));
+        $response = $this->actingAs($this->admin)->get(route('admin.progres.pdf', [
+            'anggota' => $this->anggota,
+            'bulan' => now()->format('Y-m'),
+        ]));
         $response->assertStatus(200);
         $response->assertHeader('content-type', 'application/pdf');
+        $this->assertStringContainsString('Laporan_Pemanah_Test_', (string) $response->headers->get('content-disposition'));
     }
 
     public function test_admin_can_create_and_edit_hasil_lomba(): void

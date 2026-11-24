@@ -70,6 +70,7 @@ Route::middleware(['auth', 'role:anggota'])->prefix('anggota')->name('anggota.')
     // Progres Saya
     Route::get('/progres', [AnggotaProgres::class, 'index'])->name('progres');
     Route::get('/progres/kta', [AnggotaProgres::class, 'ktaPdf'])->name('progres.kta');
+    Route::get('/progres/pdf/{anggota?}', [AnggotaProgres::class, 'exportPdf'])->name('progres.pdf');
 
     // Leaderboard
     Route::get('/leaderboard', [AnggotaLeaderboard::class, 'index'])->name('leaderboard');

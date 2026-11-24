@@ -4,13 +4,21 @@
 
 @section('content')
 <div class="space-y-6">
-    <div class="flex items-center justify-between">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <a href="{{ route('admin.progres') }}" class="text-xs font-semibold text-primary-600 hover:text-primary-700 transition">
             ← Kembali ke Ringkasan Progres
         </a>
-        <a href="{{ route('admin.progres.pdf', $anggota) }}" class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-xl text-xs font-semibold transition shadow-sm inline-flex items-center gap-1.5">
-            <span>📄</span> Unduh Rapor Evaluasi PDF
-        </a>
+        <form method="GET" action="{{ route('admin.progres.pdf', $anggota) }}" class="flex items-center gap-2">
+            <input type="month" name="bulan" value="{{ request('bulan', $bulanIni->format('Y-m')) }}"
+                   class="text-xs border-[#E5E7EB] bg-white rounded-xl px-3 py-2 focus:ring-primary-500 focus:border-primary-500">
+            <button type="submit"
+                    class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-xl text-xs font-semibold transition shadow-sm inline-flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                </svg>
+                <span>Unduh Laporan PDF</span>
+            </button>
+        </form>
     </div>
 
     {{-- Banner Anggota & Status Perkembangan --}}
