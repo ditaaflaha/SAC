@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Anggota;
 use App\Models\Galeri;
+use App\Models\JadwalLatihan;
+use App\Models\Kejuaraan;
 use App\Models\Pengumuman;
+use App\Models\SkorTembakan;
 use Illuminate\Http\Request;
 
 class PublikController extends Controller
@@ -19,7 +22,26 @@ class PublikController extends Controller
 
         $galeri = Galeri::orderByDesc('tanggal')->take(6)->get();
 
-        return view('publik.beranda', compact('pengumuman', 'galeri'));
+        $statistik = [
+            'anggota_aktif' => Anggota::where('status_keanggotaan', 'aktif')->count(),
+            'total_sesi' => max(JadwalLatihan::count(), SkorTembakan::valid()->count()),
+            'total_kejuaraan' => Kejuaraan::count(),
+        ];
+
+        $jadwalList = JadwalLatihan::orderByDesc('tanggal')->take(6)->get();
+
+        $kejuaraanList = Kejuaraan::with(['hasilLomba.anggota'])
+            ->orderByDesc('tanggal')
+            ->take(6)
+            ->get();
+
+        return view('publik.beranda', compact(
+            'pengumuman',
+            'galeri',
+            'statistik',
+            'jadwalList',
+            'kejuaraanList'
+        ));
     }
 
     /** Halaman Profil SAC */

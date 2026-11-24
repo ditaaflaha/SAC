@@ -28,7 +28,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [PublikController::class, 'beranda'])->name('beranda');
 Route::get('/profil', [PublikController::class, 'profil'])->name('profil');
 Route::get('/dokumentasi', [PublikController::class, 'dokumentasi'])->name('dokumentasi');
-Route::get('/daftar', fn () => redirect()->route('login'))->name('daftar');
+Route::get('/daftar', [PublikController::class, 'daftar'])->name('daftar');
+Route::post('/daftar', [PublikController::class, 'daftarStore'])->name('daftar.store');
+Route::get('/daftar/berhasil', [PublikController::class, 'daftarBerhasil'])->name('daftar.berhasil');
 
 // ============================================================
 // REDIRECT /dashboard → dashboard sesuai role
