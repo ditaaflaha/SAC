@@ -27,12 +27,12 @@
             border: 1px solid #cbd5e1;
             overflow: hidden;
         }
-        /* Header hijau tua minimalis */
+        /* Header ungu kalem minimalis (#7C3AED) */
         .header {
-            background-color: #064e3b;
+            background-color: #7C3AED;
             color: #ffffff;
             padding: 16px 24px;
-            border-bottom: 3px solid #f59e0b; /* Gold ring accent */
+            border-bottom: 3px solid #A78BFA;
         }
         .header-table {
             width: 100%;
@@ -48,19 +48,19 @@
         .brand-subtitle {
             font-size: 8.5px;
             letter-spacing: 2px;
-            color: #a7f3d0;
+            color: #EDE9FE;
             text-transform: uppercase;
             margin-top: 3px;
         }
         .id-badge {
-            background-color: #047857;
-            border: 1px solid #34d399;
+            background-color: #6D28D9;
+            border: 1px solid #C4B5FD;
             padding: 5px 10px;
             border-radius: 6px;
             font-family: Courier, monospace;
             font-size: 12px;
             font-weight: bold;
-            color: #fef08a;
+            color: #FFFFFF;
             letter-spacing: 1px;
         }
         /* Watermark Target Panahan Minimalis di kanan bawah */
@@ -90,21 +90,21 @@
             width: 68px;
             height: 68px;
             border-radius: 34px;
-            background-color: #ecfdf5;
-            border: 2px solid #10b981;
+            background-color: #F5F3FF;
+            border: 2px solid #8B5CF6;
             text-align: center;
             line-height: 64px;
             font-size: 22px;
             font-weight: bold;
-            color: #065f46;
+            color: #6D28D9;
         }
         .status-pill {
             margin-top: 8px;
             display: block;
             width: 68px;
             text-align: center;
-            background-color: #d1fae5;
-            color: #065f46;
+            background-color: #ECFDF5;
+            color: #047857;
             font-size: 8px;
             font-weight: bold;
             padding: 3px 0;

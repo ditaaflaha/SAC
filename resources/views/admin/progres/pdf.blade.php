@@ -7,28 +7,28 @@
         body {
             font-family: Arial, sans-serif;
             font-size: 11px;
-            color: #333;
+            color: #1F2937;
             margin: 20px;
         }
         .header {
             text-align: center;
-            border-bottom: 2px solid #059669;
+            border-bottom: 2px solid #7C3AED;
             padding-bottom: 12px;
             margin-bottom: 15px;
         }
         .header h1 {
             font-size: 18px;
             margin: 0 0 4px;
-            color: #065f46;
+            color: #6D28D9;
         }
         .header p {
             margin: 2px 0;
             font-size: 11px;
-            color: #666;
+            color: #6B7280;
         }
         .bio-box {
-            background-color: #f9fafb;
-            border: 1px solid #e5e7eb;
+            background-color: #FAFAFB;
+            border: 1px solid #E5E7EB;
             padding: 10px 14px;
             margin-bottom: 15px;
             border-radius: 6px;
@@ -41,24 +41,28 @@
             padding: 3px 0;
         }
         .status-box {
-            background-color: #ecfdf5;
-            border: 1px solid #a7f3d0;
+            background-color: #F5F3FF;
+            border: 1px solid #DDD6FE;
             padding: 10px 14px;
             margin-bottom: 15px;
             border-radius: 6px;
         }
+        h3 {
+            color: #6D28D9;
+            margin-bottom: 6px;
+        }
         table.data {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            margin-top: 6px;
         }
         table.data th, table.data td {
-            border: 1px solid #ddd;
+            border: 1px solid #DDD6FE;
             padding: 6px 8px;
         }
         table.data th {
-            background-color: #f3f4f6;
-            color: #374151;
+            background-color: #F5F3FF;
+            color: #6D28D9;
             text-align: left;
             font-size: 10px;
             text-transform: uppercase;
@@ -73,7 +77,7 @@
             margin-top: 30px;
             text-align: right;
             font-size: 10px;
-            color: #777;
+            color: #6B7280;
         }
     </style>
 </head>
@@ -110,12 +114,12 @@
     <div class="status-box">
         <table>
             <tr>
-                <td><strong>Status Evaluasi Bulan Ini:</strong> <span style="color: #065f46; font-size: 13px;">{{ strtoupper($analisis['status']) }}</span></td>
+                <td><strong>Status Evaluasi Bulan Ini:</strong> <span style="color: #6D28D9; font-size: 13px; font-weight: bold;">{{ strtoupper($analisis['status']) }}</span></td>
                 <td class="text-right"><strong>Rata-rata Skor:</strong> {{ $analisis['rata_ini'] !== null ? number_format($analisis['rata_ini'], 1) : '-' }} poin</td>
             </tr>
             @if ($analisis['saran'])
                 <tr>
-                    <td colspan="2" style="padding-top: 8px; font-style: italic; color: #047857;">
+                    <td colspan="2" style="padding-top: 8px; font-style: italic; color: #5B21B6;">
                         Catatan & Saran Pelatih: "{{ $analisis['saran'] }}"
                     </td>
                 </tr>
@@ -143,7 +147,7 @@
                     <td class="text-center">Sesi {{ $skor->sesi_ke }}</td>
                     <td class="text-center">{{ $skor->jarak_meter }} meter</td>
                     <td>{{ $skor->qty_panah }} panah</td>
-                    <td class="text-right" style="font-weight: bold;">{{ $skor->total_skor }} poin</td>
+                    <td class="text-right" style="font-weight: bold; color: #6D28D9;">{{ $skor->total_skor }} poin</td>
                 </tr>
             @empty
                 <tr>
@@ -160,4 +164,3 @@
     </div>
 </body>
 </html>
-

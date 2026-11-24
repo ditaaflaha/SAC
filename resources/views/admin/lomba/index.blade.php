@@ -186,8 +186,8 @@
                     <input type="url" name="link_ianseo" x-model="kejuaraanForm.link_ianseo" placeholder="https://ianseo.net/..." class="w-full text-sm border-slate-200 rounded-xl px-3 py-2">
                 </div>
                 <button type="submit"
-                        class="w-full py-2.5 text-white rounded-xl text-xs font-bold transition"
-                        :class="editKejuaraanMode ? 'bg-amber-600 hover:bg-amber-700' : 'bg-slate-800 hover:bg-slate-900'"
+                        class="w-full py-2.5 text-white rounded-xl text-xs font-semibold transition shadow-sm"
+                        :class="editKejuaraanMode ? 'bg-amber-600 hover:bg-amber-700' : 'bg-primary-600 hover:bg-primary-700'"
                         x-text="editKejuaraanMode ? '✓ Simpan Perubahan Kejuaraan' : '+ Simpan Kejuaraan'">
                     + Simpan Kejuaraan
                 </button>
@@ -298,8 +298,8 @@
                 </div>
 
                 <button type="submit"
-                        class="w-full py-2.5 text-white rounded-xl text-xs font-bold transition shadow-sm"
-                        :class="editMode ? 'bg-amber-600 hover:bg-amber-700' : 'bg-emerald-600 hover:bg-emerald-700'"
+                        class="w-full py-2.5 text-white rounded-xl text-xs font-semibold transition shadow-sm"
+                        :class="editMode ? 'bg-amber-600 hover:bg-amber-700' : 'bg-primary-600 hover:bg-primary-700'"
                         x-text="editMode ? '✓ Simpan Perubahan Hasil Lomba' : '+ Simpan Hasil Lomba'">
                     + Simpan Hasil Lomba
                 </button>
