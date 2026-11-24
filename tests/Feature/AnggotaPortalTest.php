@@ -6,7 +6,6 @@ use App\Models\Anggota;
 use App\Models\JadwalLatihan;
 use App\Models\PengaturanAnalisis;
 use App\Models\TargetLatihan;
-use App\Models\Tarif;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -37,13 +36,6 @@ class AnggotaPortalTest extends TestCase
         $this->anggotaUser = User::factory()->create([
             'anggota_id' => $this->anggota->id,
             'role' => 'anggota',
-        ]);
-
-        Tarif::create([
-            'jenis' => 'iuran_bulanan',
-            'nominal' => 40000,
-            'satuan' => 'per bulan',
-            'berlaku_mulai' => '2024-01-01',
         ]);
     }
 

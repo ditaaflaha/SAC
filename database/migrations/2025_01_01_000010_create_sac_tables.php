@@ -164,37 +164,6 @@ return new class extends Migration
             $table->date('tanggal');
             $table->timestamps();
         });
-
-        // ----------------------------------------------------------------
-        // Tarif (bisa berubah, berlaku mulai tanggal tertentu)
-        // ----------------------------------------------------------------
-        Schema::create('tarif', function (Blueprint $table) {
-            $table->id();
-            $table->enum('jenis', ['trial', 'private', 'pendaftaran', 'iuran_bulanan', 'member_pasif']);
-            $table->unsignedInteger('nominal');
-            $table->string('satuan'); // "per pertemuan", "6 kali pertemuan", dsb
-            $table->date('berlaku_mulai');
-            $table->timestamps();
-        });
-
-        // ----------------------------------------------------------------
-        // Pembayaran / Iuran
-        // ----------------------------------------------------------------
-        Schema::create('pembayaran', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('anggota_id')->nullable()->constrained('anggota')->nullOnDelete();
-            $table->foreignId('tarif_id')->constrained('tarif')->restrictOnDelete();
-            $table->string('nama_peserta')->nullable(); // untuk trial/private tanpa akun
-            $table->date('tanggal_bayar');
-            $table->date('periode')->nullable(); // tgl 1 bulan iuran, nullable untuk non-iuran
-            $table->unsignedTinyInteger('cicilan_ke')->nullable(); // 1 atau 2
-            $table->unsignedInteger('jumlah');
-            $table->string('bukti_transfer')->nullable(); // path file
-            $table->enum('status', ['menunggu', 'lunas', 'ditolak', 'free'])->default('menunggu');
-            $table->text('alasan_tolak')->nullable();
-            $table->foreignId('diverifikasi_oleh')->nullable()->constrained('users')->nullOnDelete();
-            $table->timestamps();
-        });
     }
 
     /**
@@ -202,8 +171,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pembayaran');
-        Schema::dropIfExists('tarif');
         Schema::dropIfExists('galeri');
         Schema::dropIfExists('pengumuman');
         Schema::dropIfExists('pengaturan_analisis');

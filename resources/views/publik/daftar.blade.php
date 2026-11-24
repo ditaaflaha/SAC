@@ -93,7 +93,7 @@
                     @foreach ([
                         ['trial', '🎯', 'Trial', 'Rp75.000/pertemuan'],
                         ['private', '🏹', 'Private Class', 'Rp500.000/6x'],
-                        ['reguler', '🌟', 'Join Komunitas', 'Rp350.000 + iuran'],
+                        ['reguler', '🌟', 'Join Komunitas', 'Rp350.000'],
                     ] as [$val, $icon, $label, $harga])
                         <label class="cursor-pointer">
                             <input type="radio" name="jenis_pilihan" value="{{ $val }}"

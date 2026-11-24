@@ -9,7 +9,6 @@ use App\Models\Kejuaraan;
 use App\Models\PengaturanAnalisis;
 use App\Models\Peringatan;
 use App\Models\SkorTembakan;
-use App\Models\Tarif;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -46,13 +45,6 @@ class AdminPortalTest extends TestCase
         $this->anggotaUser = User::factory()->create([
             'anggota_id' => $this->anggota->id,
             'role' => 'anggota',
-        ]);
-
-        Tarif::create([
-            'jenis' => 'iuran_bulanan',
-            'nominal' => 40000,
-            'satuan' => 'per bulan',
-            'berlaku_mulai' => '2024-01-01',
         ]);
     }
 
@@ -197,13 +189,6 @@ class AdminPortalTest extends TestCase
         $response = $this->actingAs($this->admin)->post(route('admin.analisis.tindaklanjuti', $peringatan));
         $response->assertRedirect();
         $this->assertTrue($peringatan->fresh()->sudah_ditindaklanjuti);
-    }
-
-    public function test_admin_can_export_iuran_pdf(): void
-    {
-        $response = $this->actingAs($this->admin)->get(route('admin.iuran.pdf'));
-        $response->assertStatus(200);
-        $response->assertHeader('content-type', 'application/pdf');
     }
 
     public function test_admin_can_export_progres_pdf(): void

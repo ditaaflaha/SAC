@@ -27,7 +27,7 @@
     </div>
 
     {{-- Kartu Statistik Ringkasan --}}
-    <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {{-- Total Anggota Aktif --}}
         <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
             <div class="flex items-center justify-between text-slate-400 mb-2">
@@ -56,26 +56,6 @@
             </div>
             <div class="text-2xl font-black text-indigo-600">{{ $pendaftarBaru }}</div>
             <p class="text-xs text-indigo-500 mt-1">Menunggu approval</p>
-        </div>
-
-        {{-- Kas Bulan Ini --}}
-        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
-            <div class="flex items-center justify-between text-slate-400 mb-2">
-                <span class="text-xs font-semibold uppercase tracking-wider">Kas Bulan Ini</span>
-                <span class="text-lg">💰</span>
-            </div>
-            <div class="text-2xl font-black text-emerald-600">Rp{{ number_format($kasbulanIni, 0, ',', '.') }}</div>
-            <p class="text-xs text-emerald-600/80 mt-1">Total iuran masuk</p>
-        </div>
-
-        {{-- Belum Bayar Iuran --}}
-        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
-            <div class="flex items-center justify-between text-slate-400 mb-2">
-                <span class="text-xs font-semibold uppercase tracking-wider">Belum Bayar</span>
-                <span class="text-lg">⏳</span>
-            </div>
-            <div class="text-2xl font-black text-red-600">{{ $belumBayar }}</div>
-            <p class="text-xs text-red-500 mt-1">Anggota reguler</p>
         </div>
     </div>
 

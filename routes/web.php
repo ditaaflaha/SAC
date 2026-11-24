@@ -3,7 +3,6 @@
 use App\Http\Controllers\Admin\AnalisisController as AdminAnalisis;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\HasilLombaController as AdminLomba;
-use App\Http\Controllers\Admin\IuranController as AdminIuran;
 use App\Http\Controllers\Admin\JadwalController as AdminJadwal;
 use App\Http\Controllers\Admin\KeanggotaanController as AdminKeanggotaan;
 use App\Http\Controllers\Admin\LeaderboardController as AdminLeaderboard;
@@ -12,7 +11,6 @@ use App\Http\Controllers\Admin\PengumumanGaleriController as AdminPengumuman;
 use App\Http\Controllers\Admin\ProgresController as AdminProgres;
 use App\Http\Controllers\Admin\ValidasiSkorController as AdminValidasiSkor;
 use App\Http\Controllers\Anggota\DashboardController as AnggotaDashboard;
-use App\Http\Controllers\Anggota\IuranController as AnggotaIuran;
 use App\Http\Controllers\Anggota\JadwalController as AnggotaJadwal;
 use App\Http\Controllers\Anggota\LeaderboardController as AnggotaLeaderboard;
 use App\Http\Controllers\Anggota\PengumumanController as AnggotaPengumuman;
@@ -80,10 +78,6 @@ Route::middleware(['auth', 'role:anggota'])->prefix('anggota')->name('anggota.')
     Route::delete('/target/rekomendasi', [AnggotaTarget::class, 'destroyRekomendasi'])->name('target.rekomendasi.destroy');
     Route::delete('/target/{target}', [AnggotaTarget::class, 'destroy'])->name('target.destroy');
 
-    // Iuran Saya
-    Route::get('/iuran', [AnggotaIuran::class, 'index'])->name('iuran');
-    Route::post('/iuran/bayar', [AnggotaIuran::class, 'bayar'])->name('iuran.bayar');
-
     // Pengumuman
     Route::get('/pengumuman', [AnggotaPengumuman::class, 'index'])->name('pengumuman');
     Route::get('/pengumuman/{pengumuman}', [AnggotaPengumuman::class, 'show'])->name('pengumuman.show');
@@ -135,13 +129,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/lomba/hasil', [AdminLomba::class, 'storeHasil'])->name('lomba.hasil.store');
     Route::put('/lomba/hasil/{hasil}', [AdminLomba::class, 'updateHasil'])->name('lomba.hasil.update');
     Route::delete('/lomba/hasil/{hasil}', [AdminLomba::class, 'destroyHasil'])->name('lomba.hasil.destroy');
-
-    // Iuran & Kas
-    Route::get('/iuran', [AdminIuran::class, 'index'])->name('iuran');
-    Route::get('/iuran/pdf', [AdminIuran::class, 'exportPdf'])->name('iuran.pdf');
-    Route::put('/iuran/{pembayaran}/verifikasi', [AdminIuran::class, 'verifikasi'])->name('iuran.verifikasi');
-    Route::post('/iuran/manual', [AdminIuran::class, 'storeManual'])->name('iuran.manual');
-    Route::put('/iuran/tarif/{tarif}', [AdminIuran::class, 'updateTarif'])->name('iuran.tarif.update');
 
     // Pengumuman & Galeri
     Route::get('/pengumuman', [AdminPengumuman::class, 'index'])->name('pengumuman');

@@ -27,8 +27,8 @@
         </div>
     </div>
 
-    {{-- Highlight Status Performa & Iuran --}}
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    {{-- Highlight Status Performa --}}
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {{-- Status Evaluasi --}}
         <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
             <div class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Status Performa</div>
@@ -80,33 +80,6 @@
             </div>
             <div class="text-xs text-gray-400">
                 {{ $status['jumlah_sesi'] >= 4 ? '✅ Target sesi tercapai' : '⚠️ Kurang ' . (4 - $status['jumlah_sesi']) . ' sesi lagi' }}
-            </div>
-        </div>
-
-        {{-- Status Iuran --}}
-        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
-            <div class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Iuran Bulan Ini</div>
-            <div class="my-3">
-                @php
-                    $iuranBadge = match ($statusIuran) {
-                        'Lunas' => 'bg-emerald-100 text-emerald-800 border-emerald-200',
-                        'FREE'  => 'bg-purple-100 text-purple-800 border-purple-200',
-                        'C1'    => 'bg-amber-100 text-amber-800 border-amber-200',
-                        default => 'bg-red-100 text-red-800 border-red-200',
-                    };
-                @endphp
-                <span class="inline-block px-3 py-1.5 rounded-xl border text-sm font-extrabold {{ $iuranBadge }}">
-                    {{ $statusIuran === 'C1' ? 'Cicilan 1 Selesai' : $statusIuran }}
-                </span>
-            </div>
-            <div class="text-xs text-gray-500">
-                @if (Route::has('anggota.iuran'))
-                    <a href="{{ route('anggota.iuran') }}" class="text-emerald-600 hover:underline font-semibold">
-                        Lihat Rincian →
-                    </a>
-                @else
-                    Iuran bulanan: Rp40.000
-                @endif
             </div>
         </div>
     </div>

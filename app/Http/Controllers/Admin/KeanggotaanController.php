@@ -95,7 +95,7 @@ class KeanggotaanController extends Controller
 
     public function show(Anggota $anggota)
     {
-        $anggota->load(['user', 'skorTembakan' => fn ($q) => $q->latest()->take(10), 'pembayaran' => fn ($q) => $q->latest()->take(10), 'presensi.jadwalLatihan']);
+        $anggota->load(['user', 'skorTembakan' => fn ($q) => $q->latest()->take(10), 'presensi.jadwalLatihan']);
 
         return view('admin.keanggotaan.show', compact('anggota'));
     }

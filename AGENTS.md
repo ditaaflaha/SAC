@@ -4,9 +4,10 @@ This document outlines the guidelines and conventions for developing the Sunnah 
 
 ## Application Overview
 Sunnah Archery Community is a Laravel application managing an archery club/community:
-- Public pages: Beranda, Profil, Dokumentasi, Pendaftaran Calon Anggota
-- Member (Anggota) Portal: Dashboard, Presensi, Input Skor, Progres Latihan, Leaderboard, Target, Iuran, Pengumuman
-- Admin Portal: Dashboard, Manajemen Keanggotaan, Jadwal Latihan, Validasi Skor, Progres & Analisis, Leaderboard, Hasil Lomba, Iuran & Kas, Galeri & Pengumuman
+- Public pages: Beranda, Profil, Dokumentasi
+- Member (Anggota) Portal: Dashboard, Presensi, Input Skor, Progres Latihan, Leaderboard, Target & Rekomendasi, Pengumuman
+- Admin Portal: Dashboard, Manajemen Keanggotaan, Jadwal Latihan, Validasi Skor, Progres & Analisis, Leaderboard, Hasil Lomba, Galeri & Pengumuman
+- Sprint 5 Scope: Pengumuman & Galeri, polishing UI, testing menyeluruh, dan deploy (tanpa fitur Iuran & Kas).
 
 ## Tech Stack & Architecture
 - Framework: Laravel 12 (PHP 8.3)

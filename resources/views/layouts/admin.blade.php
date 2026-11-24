@@ -38,7 +38,6 @@
                     ['route' => 'admin.leaderboard',  'icon' => '🏆', 'label' => 'Leaderboard'],
                     ['route' => 'admin.analisis',     'icon' => '📊', 'label' => 'Dashboard Analisis'],
                     ['route' => 'admin.lomba',        'icon' => '🥇', 'label' => 'Hasil Lomba'],
-                    ['route' => 'admin.iuran',        'icon' => '💰', 'label' => 'Iuran & Kas'],
                     ['route' => 'admin.pengumuman',   'icon' => '📢', 'label' => 'Pengumuman & Galeri'],
                     ['route' => 'admin.pengaturan',   'icon' => '⚙️',  'label' => 'Pengaturan Analisis'],
                 ];

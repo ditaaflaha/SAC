@@ -7,13 +7,11 @@ use App\Models\Galeri;
 use App\Models\HasilLomba;
 use App\Models\JadwalLatihan;
 use App\Models\Kejuaraan;
-use App\Models\Pembayaran;
 use App\Models\PengaturanAnalisis;
 use App\Models\Pengumuman;
 use App\Models\Presensi;
 use App\Models\QtyShoot;
 use App\Models\SkorTembakan;
-use App\Models\Tarif;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
@@ -52,24 +50,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // ----------------------------------------------------------------
-        // 3. Tarif (sesuai blueprint Bagian 4.4)
-        // ----------------------------------------------------------------
-        $tarifData = [
-            ['jenis' => 'trial',          'nominal' => 75000,  'satuan' => 'per pertemuan',      'berlaku_mulai' => '2024-01-01'],
-            ['jenis' => 'private',        'nominal' => 500000, 'satuan' => '6 kali pertemuan',   'berlaku_mulai' => '2024-01-01'],
-            ['jenis' => 'pendaftaran',    'nominal' => 350000, 'satuan' => 'sekali',              'berlaku_mulai' => '2024-01-01'],
-            ['jenis' => 'iuran_bulanan',  'nominal' => 40000,  'satuan' => 'per bulan',           'berlaku_mulai' => '2024-01-01'],
-            ['jenis' => 'member_pasif',   'nominal' => 50000,  'satuan' => 'per kunjungan',       'berlaku_mulai' => '2026-01-01'],
-        ];
-
-        foreach ($tarifData as $t) {
-            Tarif::create($t);
-        }
-
-        $tarifIuran = Tarif::where('jenis', 'iuran_bulanan')->first();
-
-        // ----------------------------------------------------------------
-        // 4. Pengumuman publik
+        // 3. Pengumuman publik
         // ----------------------------------------------------------------
         Pengumuman::create([
             'user_id' => $admin->id,
@@ -165,7 +146,6 @@ class DatabaseSeeder extends Seeder
         $dua_bulan_lalu = $bulanIni->copy()->subMonths(2);
 
         foreach ($namaList as $idx => [$nama, $gender]) {
-            // Tanggal gabung: 3 bulan lalu (sudah lewat 2 bulan gratis)
             $tanggalGabung = $dua_bulan_lalu->copy()->subMonth();
 
             $anggota = Anggota::create([
@@ -248,9 +228,6 @@ class DatabaseSeeder extends Seeder
                     'waktu_hadir' => $jadwal->tanggal->setTimeFromTimeString('07:'.rand(0, 15).':00'),
                 ]);
             }
-
-            // Iuran: campuran status
-            $this->buatIuran($anggota, $tarifIuran, $admin, $bulanIni, $bulanLalu, $idx);
         }
 
         // ----------------------------------------------------------------
@@ -333,100 +310,5 @@ class DatabaseSeeder extends Seeder
                 'tanggal' => Carbon::now()->subWeeks($g)->toDateString(),
             ]);
         }
-    }
-
-    /**
-     * Buat data iuran dengan campuran status berdasarkan index anggota.
-     */
-    private function buatIuran(
-        Anggota $anggota,
-        Tarif $tarif,
-        User $admin,
-        Carbon $bulanIni,
-        Carbon $bulanLalu,
-        int $idx
-    ): void {
-        // Pola iuran berulang berdasarkan modulo
-        $pola = $idx % 5;
-
-        match ($pola) {
-            // Lunas penuh bulan ini
-            0 => Pembayaran::create([
-                'anggota_id' => $anggota->id,
-                'tarif_id' => $tarif->id,
-                'tanggal_bayar' => $bulanIni->copy()->addDays(3)->toDateString(),
-                'periode' => $bulanIni->toDateString(),
-                'jumlah' => 40000,
-                'status' => 'lunas',
-                'diverifikasi_oleh' => $admin->id,
-            ]),
-
-            // Cicilan pertama saja (C1)
-            1 => Pembayaran::create([
-                'anggota_id' => $anggota->id,
-                'tarif_id' => $tarif->id,
-                'tanggal_bayar' => $bulanIni->copy()->addDays(2)->toDateString(),
-                'periode' => $bulanIni->toDateString(),
-                'cicilan_ke' => 1,
-                'jumlah' => 20000,
-                'status' => 'lunas',
-                'diverifikasi_oleh' => $admin->id,
-            ]),
-
-            // C1 + C2 (lunas cicilan)
-            2 => $this->buatCicilanLunas($anggota, $tarif, $admin, $bulanIni),
-
-            // FREE (buat sebagai record free)
-            3 => Pembayaran::create([
-                'anggota_id' => $anggota->id,
-                'tarif_id' => $tarif->id,
-                'tanggal_bayar' => $bulanIni->toDateString(),
-                'periode' => $bulanIni->toDateString(),
-                'jumlah' => 0,
-                'status' => 'free',
-                'diverifikasi_oleh' => $admin->id,
-            ]),
-
-            // Belum bayar → tidak buat record
-            default => null,
-        };
-
-        // Bulan lalu: semua lunas (untuk rekap historis)
-        if ($idx < 10) {
-            Pembayaran::create([
-                'anggota_id' => $anggota->id,
-                'tarif_id' => $tarif->id,
-                'tanggal_bayar' => $bulanLalu->copy()->addDays(5)->toDateString(),
-                'periode' => $bulanLalu->toDateString(),
-                'jumlah' => 40000,
-                'status' => 'lunas',
-                'diverifikasi_oleh' => $admin->id,
-            ]);
-        }
-    }
-
-    private function buatCicilanLunas(Anggota $anggota, Tarif $tarif, User $admin, Carbon $bulan): void
-    {
-        Pembayaran::create([
-            'anggota_id' => $anggota->id,
-            'tarif_id' => $tarif->id,
-            'tanggal_bayar' => $bulan->copy()->addDays(1)->toDateString(),
-            'periode' => $bulan->toDateString(),
-            'cicilan_ke' => 1,
-            'jumlah' => 20000,
-            'status' => 'lunas',
-            'diverifikasi_oleh' => $admin->id,
-        ]);
-
-        Pembayaran::create([
-            'anggota_id' => $anggota->id,
-            'tarif_id' => $tarif->id,
-            'tanggal_bayar' => $bulan->copy()->addDays(15)->toDateString(),
-            'periode' => $bulan->toDateString(),
-            'cicilan_ke' => 2,
-            'jumlah' => 20000,
-            'status' => 'lunas',
-            'diverifikasi_oleh' => $admin->id,
-        ]);
     }
 }

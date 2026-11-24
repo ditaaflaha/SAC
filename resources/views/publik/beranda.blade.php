@@ -79,10 +79,7 @@
             <h3 class="text-xl font-bold text-gray-900 mb-2">Anggota Reguler</h3>
             <p class="text-gray-500 text-sm mb-4 leading-relaxed">Resmi jadi anggota SAC! Latihan rutin bareng, akses dashboard progres, dan banyak lagi.</p>
             <div class="text-2xl font-extrabold text-blue-600 mb-1">Rp350.000</div>
-            <div class="text-xs text-gray-400 mb-1">pendaftaran + iuran Rp40.000/bulan</div>
-            <div class="inline-flex items-center gap-1 bg-purple-50 text-purple-700 text-xs font-semibold px-2 py-1 rounded-full mb-4">
-                🎁 2 bulan pertama GRATIS iuran!
-            </div>
+            <div class="text-xs text-gray-400 mb-5">biaya pendaftaran anggota</div>
             <a href="https://wa.me/{{ env('SAC_ADMIN_WA', '628123456789') }}" target="_blank"
                class="block text-center bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold px-4 py-2.5 rounded-xl transition-colors text-sm">
                 Hubungi Admin via WA

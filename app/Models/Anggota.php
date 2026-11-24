@@ -68,24 +68,9 @@ class Anggota extends Model
         return $this->hasMany(TargetLatihan::class);
     }
 
-    public function pembayaran()
-    {
-        return $this->hasMany(Pembayaran::class);
-    }
-
     // ----------------------------------------------------------------
     // Helper
     // ----------------------------------------------------------------
-
-    /** Cek apakah anggota masih dalam 2 bulan gratis iuran sejak tanggal_gabung */
-    public function dalamPeriodeFree(): bool
-    {
-        if (! $this->tanggal_gabung) {
-            return false;
-        }
-
-        return now()->lessThan($this->tanggal_gabung->copy()->addMonths(2)->endOfMonth());
-    }
 
     public function umur(): ?int
     {

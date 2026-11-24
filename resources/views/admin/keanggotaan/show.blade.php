@@ -165,23 +165,20 @@
         </div>
 
         <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
-            <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wider mb-4">Riwayat Iuran & Pembayaran</h2>
+            <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wider mb-4">Riwayat Presensi Latihan</h2>
             <div class="space-y-2">
-                @forelse ($anggota->pembayaran as $p)
+                @forelse ($anggota->presensi as $pr)
                     <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl text-xs">
                         <div>
-                            <span class="font-bold text-slate-800">{{ $p->tanggal_bayar->translatedFormat('d M Y') }}</span>
-                            <span class="text-slate-400">· {{ $p->periode ? 'Periode ' . $p->periode->translatedFormat('F Y') : 'Non-iuran' }}</span>
+                            <span class="font-bold text-slate-800">{{ $pr->jadwalLatihan?->tanggal?->translatedFormat('d M Y') ?? '-' }}</span>
+                            <span class="text-slate-400">· {{ $pr->jadwalLatihan?->lokasi ?? 'Lapangan SAC' }}</span>
                         </div>
-                        <div class="flex items-center gap-3">
-                            <span class="font-mono font-bold text-emerald-700">Rp{{ number_format($p->jumlah, 0, ',', '.') }}</span>
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold {{ $p->status === 'lunas' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800' }}">
-                                {{ ucfirst($p->status) }}
-                            </span>
-                        </div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                            Hadir ({{ $pr->waktu_hadir?->format('H:i') ?? '-' }})
+                        </span>
                     </div>
                 @empty
-                    <p class="text-xs text-slate-400 py-4 text-center">Belum ada riwayat pembayaran.</p>
+                    <p class="text-xs text-slate-400 py-4 text-center">Belum ada riwayat presensi.</p>
                 @endforelse
             </div>
         </div>

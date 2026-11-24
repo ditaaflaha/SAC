@@ -37,7 +37,6 @@
                     ['route' => 'anggota.progres',    'icon' => '📈', 'label' => 'Progres Saya'],
                     ['route' => 'anggota.leaderboard','icon' => '🏆', 'label' => 'Leaderboard'],
                     ['route' => 'anggota.target',     'icon' => '🎪', 'label' => 'Target & Rekomendasi'],
-                    ['route' => 'anggota.iuran',      'icon' => '💳', 'label' => 'Iuran Saya'],
                     ['route' => 'anggota.pengumuman', 'icon' => '📢', 'label' => 'Pengumuman'],
                 ];
             @endphp
@@ -181,13 +180,6 @@
                    class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl {{ request()->routeIs('anggota.leaderboard') ? 'text-emerald-600' : 'text-gray-500' }}">
                     <span class="text-lg">🏆</span>
                     <span class="text-xs font-medium">Rank</span>
-                </a>
-                @endif
-                @if (Route::has('anggota.iuran'))
-                <a href="{{ route('anggota.iuran') }}"
-                   class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl {{ request()->routeIs('anggota.iuran') ? 'text-emerald-600' : 'text-gray-500' }}">
-                    <span class="text-lg">💳</span>
-                    <span class="text-xs font-medium">Iuran</span>
                 </a>
                 @endif
             </div>
